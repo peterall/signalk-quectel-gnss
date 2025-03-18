@@ -1,0 +1,15 @@
+{
+  "name": "signalk-quectel-gnss",
+  "version": "1.0.0",
+  "description": "SignalK plugin for Quectel GNSS",
+  "license": "ISC",
+  "author": "Peter Allwin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "signalk-node-server-plugin",
+    "signalk-category-hardware"
+  ]
+}
