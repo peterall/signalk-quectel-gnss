@@ -28,7 +28,7 @@ module.exports = (app) => {
         // $PQTMTAR,1,160443.350,1,,0.000,,,,,,,23*6C
         const [msg_ver, time, quality, res, length, pitch, roll, heading, acc_pitch, acc_roll, acc_heading, usedsv] = parts;
 
-        if (Number(length) !== 0 && pitch != "" && roll != "" && heading != "") {
+        if (Number(length) !== 0 && heading != "") {
           // measurements assume sensor is mounted longitudinally, however it's mounted transversely
           // so we need to rotate heading by 90 and normalize it to 0-2pi, and swap pitch and roll
           let heading_rad = (Number(heading) + 90) * Math.PI / 180;
@@ -58,13 +58,9 @@ module.exports = (app) => {
           }
         } else if (Number(usedsv) > 0) {
           return {
-            updates: [
-              {
-                values: [
-                  { path: 'navigation.gnss.attitude.satellites', value: Number(usedsv) },
-                ]
-              }
-            ]
+            updates: [ {
+                values: [ { path: 'navigation.gnss.attitude.satellites', value: Number(usedsv) } ]
+            } ]
           }
         }
       }
