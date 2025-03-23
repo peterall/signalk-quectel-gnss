@@ -8,6 +8,19 @@ module.exports = (app) => {
   };
 
   plugin.start = (settings, restartPlugin) => {
+    app.handleMessage(plugin.id, {
+      updates: [{
+        meta: [
+          {
+            path: 'navigation.gnss.attitude.baseline',
+            value: {
+                units: "m"
+            }
+          },
+        ]
+      }]
+    });
+
     app.emitPropertyValue('nmea0183sentenceParser', {
       sentence: 'PQTMTAR',
       parser: ({ id, sentence, parts, tags }, session) => {
@@ -36,9 +49,9 @@ module.exports = (app) => {
                 values: [
                   { path: 'navigation.headingTrue', value: heading_rad },
                   { path: 'navigation.attitude', value: { roll: roll_rad, pitch: pitch_rad, yaw: heading_rad } },
-                  { path: 'navigation.attitudeAccuracy', value: { roll: acc_roll_rad, pitch: acc_pitch_rad, yaw: acc_yaw_rad } },
-                  { path: 'navigation.attitudeBaseline', value: Number(length) },
-                  { path: 'navigation.attitudeSatellites', value: Number(usedsv) },
+                  { path: 'navigation.gnss.attitude.accuracy', value: { roll: acc_roll_rad, pitch: acc_pitch_rad, yaw: acc_yaw_rad } },
+                  { path: 'navigation.gnss.attitude.baseline', value: Number(length) },
+                  { path: 'navigation.gnss.attitude.satellites', value: Number(usedsv) },
                 ]
               }
             ]
@@ -48,7 +61,7 @@ module.exports = (app) => {
             updates: [
               {
                 values: [
-                  { path: 'navigation.attitudeSatellites', value: Number(usedsv) },
+                  { path: 'navigation.gnss.attitude.satellites', value: Number(usedsv) },
                 ]
               }
             ]
