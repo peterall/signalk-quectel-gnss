@@ -31,10 +31,8 @@ module.exports = (app) => {
         if (Number(length) !== 0 && heading != "") {
           // measurements assume sensor is mounted longitudinally, however it's mounted transversely
           // so we need to rotate heading by 90 and normalize it to 0-2pi, and swap pitch and roll
-          let heading_rad = (Number(heading) + 90) * Math.PI / 180;
-          if (heading_rad > Math.PI) {
-            heading_rad -= 2 * Math.PI;
-          }
+          const heading_rad_raw = (Number(heading) + 90) * Math.PI / 180;
+          const heading_rad = ((heading_rad_raw % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
 
           const roll_rad = Number(pitch) * Math.PI / 180;
           const pitch_rad = Number(roll) * Math.PI / 180;
@@ -77,4 +75,3 @@ module.exports = (app) => {
 
   return plugin;
 };
-
